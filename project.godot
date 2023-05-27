@@ -13,7 +13,9 @@ config_version=5
 config/name="wii-tanks"
 run/main_scene="res://levels/bootflow.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 0)
+boot_splash/image="res://splash.png"
+config/icon="res://icon.png"
 
 [display]
 
