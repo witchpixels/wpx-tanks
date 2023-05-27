@@ -18,7 +18,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   export-windows:
-    if: github.event_name == 'push'
+    if: false #github.event_name == 'push'
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
@@ -57,6 +57,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+          apt install dotnet-sdk-6.0
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
@@ -69,7 +70,7 @@ jobs:
           path: build/linux
 
   export-mac:
-    if: github.event_name == 'push'
+    if: false #github.event_name == 'push'
     name: Mac Export
     runs-on: ubuntu-20.04
     container:
