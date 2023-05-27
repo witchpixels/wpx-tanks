@@ -11,9 +11,21 @@ config_version=5
 [application]
 
 config/name="wii-tanks"
-config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+run/main_scene="res://levels/bootflow.tscn"
+config/features=PackedStringArray("4.0", "C#", "Forward Plus")
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 0)
+boot_splash/image="res://splash.png"
+config/icon="res://icon.png"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [dotnet]
 
 project/assembly_name="wii-tanks"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-object-pool-csharp/plugin.cfg")
