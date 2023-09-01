@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6fje0hoseoa1"]
+[gd_scene load_steps=2 format=3 uid="uid://26xe7l5yqi4n"]
 
 [ext_resource type="PackedScene" uid="uid://byg0va625a56j" path="res://entities/tanks/raw/tank.blend" id="1_54y3x"]
 
 [node name="tank" instance=ExtResource("1_54y3x")]
 
-[node name="rectangle_turret" parent="." index="4"]
+[node name="rectangle_turret" parent="." index="2"]
 visible = false
