@@ -10,5 +10,4 @@ public interface IObjectPool<T> where T : Node
 
     public T Retrieve();
     public void Release(T node);
-
 }
