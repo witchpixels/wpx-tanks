@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="wii-tanks"
-run/main_scene="res://levels/bootflow.tscn"
+config/name="wpx-tanks"
+run/main_scene="res://bootflow/bootflow.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 0)
 boot_splash/image="res://splash.png"
@@ -24,7 +24,7 @@ window/size/viewport_height=1080
 
 [dotnet]
 
-project/assembly_name="wii-tanks"
+project/assembly_name="Witchpixels.Tanks"
 
 [editor_plugins]
 
