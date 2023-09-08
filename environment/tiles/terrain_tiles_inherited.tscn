@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dw4gurlgdtckt"]
+
+[ext_resource type="PackedScene" uid="uid://d177nfb81xt6q" path="res://environment/tiles/terrain_tiles.blend" id="1_s3lag"]
+[ext_resource type="Material" uid="uid://dqmhr4pp4asdi" path="res://environment/tiles/hardwood_material.tres" id="2_bdv7g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bomke"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aqcff"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qsjhr"]
+radius = 0.8
+
+[node name="terrain_tiles" instance=ExtResource("1_s3lag")]
+
+[node name="floor_normal" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_bdv7g")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floor_normal" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor_normal/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_bomke")
+
+[node name="floor_pit" parent="." index="1"]
+surface_material_override/0 = ExtResource("2_bdv7g")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floor_pit" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor_pit/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_aqcff")
+
+[node name="StaticBody3D-VehicleBlocker" type="StaticBody3D" parent="floor_pit" index="1"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor_pit/StaticBody3D-VehicleBlocker" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_qsjhr")

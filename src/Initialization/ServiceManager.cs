@@ -18,7 +18,7 @@ public partial class ServiceManager : Node, IServiceRegistry, IDependencyGraph
 
     public void RegisterService<TService>(Func<TService> serviceFactory)
     {
-        _factoryFunctionsByType.Add(typeof(TService), () => serviceFactory);
+        _factoryFunctionsByType.Add(typeof(TService), () => serviceFactory()!);
     }
 
     public IDependencyBuilder Require(string? name = null)
@@ -63,7 +63,7 @@ public partial class ServiceManager : Node, IServiceRegistry, IDependencyGraph
 
         public void WhenReady(Action readyFunc)
         {
-            if (readyFunc != null)
+            if (_readyFunc != null)
                 throw new InvalidOperationException($"{Name}:Ready Func can only be specified once per builder");
 
             _readyFunc = readyFunc;
@@ -78,7 +78,7 @@ public partial class ServiceManager : Node, IServiceRegistry, IDependencyGraph
                 if (_serviceManager._factoryFunctionsByType.TryGetValue(typeToResolve.Key, out var factory))
                 {
                     resolved.Add(typeToResolve.Key);
-                    typeToResolve.Value(factory());
+                    typeToResolve.Value(factory.Invoke());
                 }
 
             foreach (var type in resolved) _unmetResolutionsByType.Remove(type);

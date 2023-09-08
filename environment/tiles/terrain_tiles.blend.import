@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://k1spj66pcdat"
-path="res://.godot/imported/terrain.blend-c1ab7dc7ea6cc6a6b75e5ee14c6b926d.scn"
+uid="uid://d177nfb81xt6q"
+path="res://.godot/imported/terrain_tiles.blend-0c029e11ea4da7963055407746551cb1.scn"
 
 [deps]
 
-source_file="res://environment/tiles/terrain.blend"
-dest_files=["res://.godot/imported/terrain.blend-c1ab7dc7ea6cc6a6b75e5ee14c6b926d.scn"]
+source_file="res://environment/tiles/terrain_tiles.blend"
+dest_files=["res://.godot/imported/terrain_tiles.blend-0c029e11ea4da7963055407746551cb1.scn"]
 
 [params]
 
