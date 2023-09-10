@@ -5,3 +5,6 @@
 
 # Blender backup files
 *.blend1
+
+
+.attach_pid*
