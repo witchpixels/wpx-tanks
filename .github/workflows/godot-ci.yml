@@ -41,7 +41,7 @@ jobs:
           apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
           ls /root/.local/share/godot/templates/
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -91,7 +91,7 @@ jobs:
           apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
           ls /root/.local/share/godot/templates/
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -142,7 +142,7 @@ jobs:
           apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
           ls /root/.local/share/godot/templates/
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
