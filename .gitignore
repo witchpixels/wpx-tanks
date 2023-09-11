@@ -1,5 +1,10 @@
 # Godot 4+ specific ignores
+
+.idea/
 .godot/
 
 # Blender backup files
 *.blend1
+
+
+.attach_pid*

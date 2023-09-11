@@ -11,7 +11,7 @@ on:
     branches: [ "main" ]
 
 env:
-  GODOT_VERSION: 4.0.3
+  GODOT_VERSION: 4.1.1
   EXPORT_NAME: wiitchpixels_tanks
 
 
@@ -20,9 +20,9 @@ jobs:
   export-windows:
     if: false #github.event_name == 'push'
     name: Windows Export
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:mono-4.0.3
+      image: barichello/godot-ci:mono-4.1.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -30,24 +30,40 @@ jobs:
           lfs: true
       - name: Setup
         run: |
+          wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+          dpkg -i packages-microsoft-prod.deb
+          rm packages-microsoft-prod.deb
+          apt update
+          apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
+          ls /root/.local/share/godot/templates/
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+      - name: Stamp Version
+        run: |
+          ./.build/stamp_version.sh
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
-          cd $PROJECT_PATH
-          godot -v --display-driver headless --export-release "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
+          godot --headless -v --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: windows
           path: build/windows
-
+          
   export-linux:
     name: Linux Export
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:mono-4.0.3
+      image: barichello/godot-ci:mono-4.1.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -55,15 +71,29 @@ jobs:
           lfs: true
       - name: Setup
         run: |
-          mkdir -v -p ~/.local/share/godot/templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+          wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+          dpkg -i packages-microsoft-prod.deb
+          rm packages-microsoft-prod.deb
           apt update
           apt install -y dotnet-sdk-6.0
+          mkdir -v -p ~/.local/share/godot/templates
+          ls /root/.local/share/godot/templates/
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+      - name: Stamp Version
+        run: |
+          ./.build/stamp_version.sh
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
-          cd $PROJECT_PATH
-          godot -v --display-driver headless --export-release "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
+          godot --headless -v --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
@@ -73,9 +103,9 @@ jobs:
   export-mac:
     if: false #github.event_name == 'push'
     name: Mac Export
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:mono-4.0.3
+      image: barichello/godot-ci:mono-4.1.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -83,13 +113,29 @@ jobs:
           lfs: true
       - name: Setup
         run: |
+          wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+          dpkg -i packages-microsoft-prod.deb
+          rm packages-microsoft-prod.deb
+          apt update
+          apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
+          ls /root/.local/share/godot/templates/
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+      - name: Stamp Version
+        run: |
+          ./.build/stamp_version.sh
       - name: Mac Build
         run: |
           mkdir -v -p build/mac
-          cd $PROJECT_PATH
-          godot -v --display-driver headless --export-release "Mac OSX" ../build/mac/$EXPORT_NAME.zip
+          godot --headless -v --export-release "macOS" build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:

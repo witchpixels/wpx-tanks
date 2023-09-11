@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b57g2by7avgmt"]
+
+[ext_resource type="Texture2D" uid="uid://c6yetq88b7l0a" path="res://entities/tank/visuals/light_wood.jpg" id="1_h1i83"]
+
+[resource]
+albedo_texture = ExtResource("1_h1i83")
+uv1_triplanar = true

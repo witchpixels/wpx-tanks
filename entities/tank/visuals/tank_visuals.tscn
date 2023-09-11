@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfq8js0jhvwqj"]
+
+[ext_resource type="PackedScene" uid="uid://dg1x1wl0u5ylg" path="res://entities/tank/visuals/tank.blend" id="1_twbkj"]
+[ext_resource type="Script" path="res://src/Entities/Tank/Visuals/TankVisualsComponent.cs" id="2_pqhsm"]
+[ext_resource type="Script" path="res://src/Entities/Tank/Visuals/TankMeshShaderComponent.cs" id="3_4s348"]
+[ext_resource type="Shader" path="res://entities/tank/visuals/tank_apply_color_shader.gdshader" id="5_45hum"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fhhtl"]
+resource_local_to_scene = true
+render_priority = 1
+shader = ExtResource("5_45hum")
+shader_parameter/color_intensity = 0.9
+
+[node name="tank" instance=ExtResource("1_twbkj")]
+script = ExtResource("2_pqhsm")
+
+[node name="tank_hull" parent="." index="0"]
+material_overlay = SubResource("ShaderMaterial_fhhtl")
+instance_shader_parameters/tank_color = Color(1, 0, 0, 1)
+
+[node name="turret_conical" parent="." index="1"]
+material_overlay = SubResource("ShaderMaterial_fhhtl")
+instance_shader_parameters/tank_color = Color(1, 0, 0, 1)
+
+[node name="components" type="Node" parent="." index="3"]
+
+[node name="mesh_shader" type="Node" parent="components" index="0" node_paths=PackedStringArray("_shadableMeshes")]
+script = ExtResource("3_4s348")
+_shaderMaterial = SubResource("ShaderMaterial_fhhtl")
+_shadableMeshes = [NodePath("../../tank_hull"), NodePath("../../turret_conical")]

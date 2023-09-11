@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1qxsnlka23dw"]
+
+[ext_resource type="MeshLibrary" uid="uid://5wa0i271ujwl" path="res://environment/tiles/terrain_tiles_mesh_library.tres" id="1_3o3aq"]
+[ext_resource type="Material" uid="uid://dqmhr4pp4asdi" path="res://environment/tiles/hardwood_material.tres" id="2_ndct7"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_cdaj5"]
+mie_color = Color(1, 0.909804, 0.733333, 1)
+
+[sub_resource type="Sky" id="Sky_my2q3"]
+sky_material = SubResource("PhysicalSkyMaterial_cdaj5")
+
+[sub_resource type="Environment" id="Environment_cgpf8"]
+background_mode = 2
+sky = SubResource("Sky_my2q3")
+ambient_light_source = 3
+ambient_light_color = Color(0.505882, 0.537255, 0.623529, 1)
+ambient_light_sky_contribution = 0.52
+reflected_light_source = 2
+tonemap_mode = 3
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ng4lv"]
+size = Vector2(208, 56)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0dcx2"]
+size = Vector2(78, 36)
+
+[node name="default_stage" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_cgpf8")
+
+[node name="Sunlight" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 0.515621, 0.856817, 0, -0.856817, 0.515621, 0, 15.9221, 0)
+shadow_enabled = true
+shadow_blur = 2.01
+
+[node name="BorderRegion" type="GridMap" parent="."]
+mesh_library = ExtResource("1_3o3aq")
+data = {
+"cells": PackedInt32Array(131058, 65526, 2, 131059, 65526, 2, 131060, 65526, 2, 131061, 65526, 2, 131062, 65526, 2, 131063, 65526, 2, 131064, 65526, 2, 131065, 65526, 2, 131066, 65526, 2, 131067, 65526, 2, 131068, 65526, 2, 131069, 65526, 2, 131070, 65526, 2, 131071, 65526, 2, 65536, 65526, 2, 65537, 65526, 2, 65538, 65526, 2, 65539, 65526, 2, 65540, 65526, 2, 65541, 65526, 2, 65542, 65526, 2, 65549, 65527, 2, 65549, 65528, 2, 65549, 65529, 2, 65549, 65530, 2, 65549, 65531, 2, 65549, 65532, 2, 65549, 65533, 2, 65549, 65534, 2, 65549, 65535, 2, 65549, 0, 2, 65549, 1, 2, 65549, 9, 2, 65549, 8, 2, 65549, 7, 2, 65549, 6, 2, 65549, 5, 2, 65549, 4, 2, 65549, 3, 2, 65549, 2, 2, 65548, 9, 2, 65547, 9, 2, 65546, 9, 2, 65545, 9, 2, 65544, 9, 2, 65543, 9, 2, 65542, 9, 2, 65541, 9, 2, 65540, 9, 2, 65539, 9, 2, 65538, 9, 2, 65537, 9, 2, 65536, 9, 2, 131071, 9, 2, 131070, 9, 2, 131069, 9, 2, 131068, 9, 2, 131067, 9, 2, 131066, 9, 2, 131065, 9, 2, 131064, 9, 2, 131063, 9, 2, 131062, 9, 2, 131061, 9, 2, 131060, 9, 2, 131059, 9, 2, 131058, 9, 2, 131058, 8, 2, 131058, 7, 2, 131058, 6, 2, 131058, 65527, 2, 131058, 65528, 2, 131058, 65529, 2, 131058, 65530, 2, 131058, 65531, 2, 131058, 65532, 2, 131058, 65533, 2, 131058, 65534, 2, 131058, 65535, 2, 131058, 0, 2, 131058, 1, 2, 131058, 2, 2, 131058, 3, 2, 131058, 4, 2, 131058, 5, 2, 65548, 65526, 2, 65547, 65526, 2, 65546, 65526, 2, 65545, 65526, 2, 65544, 65526, 2, 65543, 65526, 2, 65549, 65526, 2)
+}
+metadata/_editor_floor_ = Vector3(0, 1, 0)
+
+[node name="floor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="floor_bottom" type="MeshInstance3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 46)
+mesh = SubResource("PlaneMesh_ng4lv")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_ndct7")
+
+[node name="floor_top" type="MeshInstance3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -46)
+mesh = SubResource("PlaneMesh_ng4lv")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_ndct7")
+
+[node name="floor_left" type="MeshInstance3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 0, 0)
+mesh = SubResource("PlaneMesh_0dcx2")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_ndct7")
+
+[node name="floor_right" type="MeshInstance3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65, 0, 0)
+mesh = SubResource("PlaneMesh_0dcx2")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_ndct7")

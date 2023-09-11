@@ -1,8 +1,10 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dqmhr4pp4asdi"]
 
-[ext_resource type="Texture2D" uid="uid://d12eungrpv35t" path="res://environment/tiles/light_wood.jpg" id="1_110xg"]
+[ext_resource type="Texture2D" uid="uid://i8f7d0rylat2" path="res://environment/tiles/hard_wood.png" id="1_hlu3a"]
 
 [resource]
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("1_110xg")
+albedo_texture = ExtResource("1_hlu3a")
+uv1_scale = Vector3(0.02, 0.02, 0.02)
 uv1_triplanar = true
+uv1_world_triplanar = true
