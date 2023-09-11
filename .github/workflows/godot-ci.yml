@@ -53,7 +53,7 @@ jobs:
           useConfigFile: true
       - name: Stamp Version
         run: |
-          $GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
+          export GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
           ./.build/stamp_version.sh
       - name: Windows Build
         run: |
@@ -100,7 +100,7 @@ jobs:
           useConfigFile: true
       - name: Stamp Version
         run: |
-          $GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
+          export GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
           ./.build/stamp_version.sh
       - name: Linux Build
         run: |
@@ -148,7 +148,7 @@ jobs:
           useConfigFile: true
       - name: Stamp Version
         run: |
-          $GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
+          export GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
           ./.build/stamp_version.sh
       - name: Mac Build
         run: |
