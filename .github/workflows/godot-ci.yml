@@ -20,7 +20,7 @@ jobs:
   export-windows:
     if: false #github.event_name == 'push'
     name: Windows Export
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
       image: barichello/godot-ci:mono-4.1.1
     steps:
@@ -28,6 +28,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Setup
+        run: |
+          apt update
+          apt install -y dotnet-sdk-6.0
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -51,7 +57,7 @@ jobs:
           
   export-linux:
     name: Linux Export
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
       image: barichello/godot-ci:mono-4.1.1
     steps:
@@ -59,6 +65,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Setup
+        run: |
+          apt update
+          apt install -y dotnet-sdk-6.0
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -83,7 +95,7 @@ jobs:
   export-mac:
     if: false #github.event_name == 'push'
     name: Mac Export
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
       image: barichello/godot-ci:mono-4.1.1
     steps:
@@ -91,6 +103,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Setup
+        run: |
+          apt update
+          apt install -y dotnet-sdk-6.0
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
