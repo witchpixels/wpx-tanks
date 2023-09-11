@@ -51,6 +51,9 @@ jobs:
         id: gitversion
         with:
           useConfigFile: true
+      - name: Show directory
+        run: |
+          ls -la
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
@@ -100,6 +103,9 @@ jobs:
         id: gitversion
         with:
           useConfigFile: true
+      - name: Show directory
+        run: |
+          ls -la
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
@@ -150,6 +156,9 @@ jobs:
         id: gitversion
         with:
           useConfigFile: true
+      - name: Show directory
+        run: |
+          ls -la
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
