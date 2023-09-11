@@ -18,17 +18,19 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   export-windows:
-    if: false #github.event_name == 'push'
+    if: github.event_name == 'push'
     name: Windows Export
     runs-on: ubuntu-22.04
     container:
       image: barichello/godot-ci:mono-4.1.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Fetch all history for all tags and branches
         run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           git fetch --prune --unshallow
       - name: Setup
         run: |
@@ -46,12 +48,16 @@ jobs:
           versionSpec: '5.x'
       - name: Determine Version
         uses: gittools/actions/gitversion/execute@v0
+        id: gitversion
         with:
           useConfigFile: true
+      - name: Show directory
+        run: |
+          ls -la
       - name: Stamp Version
         run: |
-          $GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
-          ./.build/stamp_version.sh
+          GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
+          sh ./.build/stamp_version.sh
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
@@ -72,7 +78,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Fetch all history for all tags and branches
         run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           git fetch --prune --unshallow
       - name: Setup
         run: |
@@ -90,12 +98,16 @@ jobs:
           versionSpec: '5.x'
       - name: Determine Version
         uses: gittools/actions/gitversion/execute@v0
+        id: gitversion
         with:
           useConfigFile: true
+      - name: Show directory
+        run: |
+          ls -la
       - name: Stamp Version
         run: |
-          $GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
-          ./.build/stamp_version.sh
+          GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
+          sh ./.build/stamp_version.sh
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
@@ -117,7 +129,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Fetch all history for all tags and branches
         run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           git fetch --prune --unshallow
       - name: Setup
         run: |
@@ -135,14 +149,19 @@ jobs:
           versionSpec: '5.x'
       - name: Determine Version
         uses: gittools/actions/gitversion/execute@v0
+        id: gitversion
         with:
           useConfigFile: true
+      - name: Show directory
+        run: |
+          ls -la
       - name: Stamp Version
         run: |
-          $GitVersion_FullSemVer = "${{steps.gitversion.outputs.fullSemVer}}"
-          ./.build/stamp_version.sh
+          GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
+          sh ./.build/stamp_version.sh
       - name: Mac Build
         run: |
+          cd $GITHUB_WORKSPACE
           mkdir -v -p build/mac
           godot --headless -v --export-release "macOS" build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
