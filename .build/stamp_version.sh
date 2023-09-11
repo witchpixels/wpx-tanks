@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 if [[ -z "$GitVersion_FullSemVer" ]]; then
   GitVersion_FullSemVer="0.1.0-failed-to-set-from-gitversion"

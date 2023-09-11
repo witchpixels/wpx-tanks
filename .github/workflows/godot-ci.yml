@@ -110,7 +110,7 @@ jobs:
 
           ls -la .build
 
-          ./.build/stamp_version.sh
+          sh ./.build/stamp_version.sh
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
