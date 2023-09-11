@@ -11,7 +11,7 @@ on:
     branches: [ "main" ]
 
 env:
-  GODOT_VERSION: 4.1.0
+  GODOT_VERSION: 4.1.1
   EXPORT_NAME: wiitchpixels_tanks
 
 
@@ -36,7 +36,8 @@ jobs:
           apt update
           apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          ls /root/.local/share/godot/templates/
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -77,7 +78,7 @@ jobs:
           apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
           ls /root/.local/share/godot/templates/
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -118,7 +119,8 @@ jobs:
           apt update
           apt install -y dotnet-sdk-6.0
           mkdir -v -p ~/.local/share/godot/templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          ls /root/.local/share/godot/templates/
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
