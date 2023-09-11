@@ -31,7 +31,7 @@ jobs:
       - name: Setup
         run: |
           apt update
-          apt install -y dotnet-sdk-6.0
+          apt install -y dotnet6
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Install GitVersion
@@ -68,7 +68,7 @@ jobs:
       - name: Setup
         run: |
           apt update
-          apt install -y dotnet-sdk-6.0
+          apt install -y dotnet6
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Install GitVersion
@@ -106,7 +106,7 @@ jobs:
       - name: Setup
         run: |
           apt update
-          apt install -y dotnet-sdk-6.0
+          apt install -y dotnet6
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Install GitVersion
