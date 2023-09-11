@@ -5,12 +5,6 @@ using Godot;
 
 namespace Witchpixels.Tanks.Initialization;
 
-public interface IDependencyBuilder
-{
-    IDependencyBuilder DependsOn<TService>(Action<TService> resolvedFunc);
-    void WhenReady(Action readyFunc);
-}
-
 public partial class ServiceManager : Node, IServiceRegistry, IDependencyGraph
 {
     private readonly Dictionary<Type, Func<object>> _factoryFunctionsByType = new();
