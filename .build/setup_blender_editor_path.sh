@@ -1,5 +1,7 @@
 BLENDER_PATH=$(which blender) || BLENDER_PATH="\\/usr\\/bin"
 
+godot --headless -e --quit-after 100
+
 cat ~/.config/godot/editor_settings-4.tres \
     | sed "/^filesystem\\/import\\/blender\\/blender3_path =/s/=.*/= \"$BLENDER_PATH\"/" \
     > ~/.config/godot/editor_settings-4.tres.2
