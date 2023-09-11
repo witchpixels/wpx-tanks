@@ -101,17 +101,16 @@ jobs:
         id: gitversion
         with:
           useConfigFile: true
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          lfs: true
       - name: Show directory
         run: |
           ls -la
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          .build/stamp_version.sh
+
+          ls -la .build
+
+          ./.build/stamp_version.sh
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
