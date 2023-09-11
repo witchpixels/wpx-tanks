@@ -42,6 +42,7 @@ public partial class LevelService : Node3D, ILevelService
     
     public async Task LoadLevel(string levelName, string? stageName)
     {
+        GetTree().Paused = true;
         await UnloadCurrentLevel();
         
         // wpx2023 TODO: Add another check after this to look in user folder so that UGC is allowed
@@ -56,9 +57,9 @@ public partial class LevelService : Node3D, ILevelService
 
             var levelScene = ResourceLoader.Load<PackedScene>(levelPath);
             _currentLevel = levelScene.Instantiate<Node3D>();
+            var readyTask = ToSignal(_currentLevel, "ready"); 
             AddChild(_currentLevel);
-            
-            await ToSignal(_currentLevel, "ready");
+            await readyTask;
             
             _logger.Info("Finished loading level resource");
         }
@@ -77,9 +78,9 @@ public partial class LevelService : Node3D, ILevelService
             var stageScene = ResourceLoader.Load<PackedScene>(stagePath);
 
             _currentStage = stageScene.Instantiate<Node3D>();
+            var readyTask = ToSignal(_currentStage, "ready"); 
             AddChild(_currentStage);
-            
-            await ToSignal(_currentStage, "ready");
+            await readyTask;
             
             _logger.Info("Loaded stage");
         }
@@ -87,6 +88,9 @@ public partial class LevelService : Node3D, ILevelService
         {
             _defaultStage.Visible = true;
         }
+
+        GetTree().Paused = false;
+        _logger.Info("Level loaded, unpaused");
     }
 
     public Task<IReadOnlyList<string>> ListLevels()
