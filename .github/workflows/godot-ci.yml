@@ -30,6 +30,7 @@ jobs:
           lfs: true
       - name: Fetch all history for all tags and branches
         run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           git fetch --prune --unshallow
       - name: Setup
         run: |
@@ -75,6 +76,7 @@ jobs:
           lfs: true
       - name: Fetch all history for all tags and branches
         run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           git fetch --prune --unshallow
       - name: Setup
         run: |
@@ -121,6 +123,7 @@ jobs:
           lfs: true
       - name: Fetch all history for all tags and branches
         run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           git fetch --prune --unshallow
       - name: Setup
         run: |
