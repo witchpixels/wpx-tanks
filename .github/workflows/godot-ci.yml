@@ -54,7 +54,7 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          ./.build/stamp_version.sh
+          .build/stamp_version.sh
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
@@ -101,7 +101,7 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          ./.build/stamp_version.sh
+          .build/stamp_version.sh
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
@@ -149,7 +149,7 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          ./.build/stamp_version.sh
+          .build/stamp_version.sh
       - name: Mac Build
         run: |
           mkdir -v -p build/mac
