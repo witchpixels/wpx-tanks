@@ -18,7 +18,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   export-windows:
-    if: false #github.event_name == 'push'
+    if: github.event_name == 'push'
     name: Windows Export
     runs-on: ubuntu-22.04
     container:
@@ -54,9 +54,11 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
+          cd $GITHUB_WORKSPACE
           .build/stamp_version.sh
       - name: Windows Build
         run: |
+          cd $GITHUB_WORKSPACE
           mkdir -v -p build/windows
           godot --headless -v --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
       - name: Upload Artifact
@@ -101,9 +103,11 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
+          cd $GITHUB_WORKSPACE
           .build/stamp_version.sh
       - name: Linux Build
         run: |
+          cd $GITHUB_WORKSPACE
           mkdir -v -p build/linux
           godot --headless -v --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
       - name: Upload Artifact
@@ -149,9 +153,11 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
+          cd $GITHUB_WORKSPACE
           .build/stamp_version.sh
       - name: Mac Build
         run: |
+          cd $GITHUB_WORKSPACE
           mkdir -v -p build/mac
           godot --headless -v --export-release "macOS" build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
