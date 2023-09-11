@@ -27,6 +27,10 @@ window/size/resizable=false
 
 project/assembly_name="Witchpixels.Tanks"
 
+[editor]
+
+movie_writer/movie_file="./last_recording.avi"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-object-pool-csharp/plugin.cfg")
