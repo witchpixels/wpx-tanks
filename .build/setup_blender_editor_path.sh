@@ -1,6 +1,7 @@
-BLENDER_PATH=$(which blender) || BLENDER_PATH="\\/usr\\/bin"
+echo $(which blender)
+BLENDER_PATH="\\/usr\\/bin"
 
-godot --headless -e --quit-after 100
+godot --headless -e --quit-after 1
 
 echo "EDITOR SETTINGS BEFORE ---------------------------------"
 cat ~/.config/godot/editor_settings-4.tres
