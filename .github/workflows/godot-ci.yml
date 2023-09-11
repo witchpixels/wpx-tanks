@@ -25,7 +25,7 @@ jobs:
       image: barichello/godot-ci:mono-4.1.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           lfs: true
       - name: Fetch all history for all tags and branches
@@ -57,7 +57,7 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          .build/stamp_version.sh
+          sh ./.build/stamp_version.sh
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
@@ -107,9 +107,6 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-
-          ls -la .build
-
           sh ./.build/stamp_version.sh
       - name: Linux Build
         run: |
@@ -161,8 +158,7 @@ jobs:
       - name: Stamp Version
         run: |
           GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          cd $GITHUB_WORKSPACE
-          .build/stamp_version.sh
+          sh ./.build/stamp_version.sh
       - name: Mac Build
         run: |
           cd $GITHUB_WORKSPACE
