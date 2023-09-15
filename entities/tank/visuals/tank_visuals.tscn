@@ -9,7 +9,7 @@
 resource_local_to_scene = true
 render_priority = 1
 shader = ExtResource("5_45hum")
-shader_parameter/color_intensity = 0.9
+shader_parameter/color_intensity = 0.8
 
 [node name="tank" instance=ExtResource("1_twbkj")]
 script = ExtResource("2_pqhsm")

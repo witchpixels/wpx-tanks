@@ -29,6 +29,7 @@ public partial class PlayerTankController : CharacterBody3D
         _tankVisualsComponent.TankColor = Colors.Blue;
 
         base._Ready();
+        _logger.Info("Player tank is ready");
     }
 
     public override void _Process(double delta)
