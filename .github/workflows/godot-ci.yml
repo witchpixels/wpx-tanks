@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Export Project
 
 # Controls when the workflow will run
 on:
@@ -17,31 +17,16 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  export-windows:
-    if: github.event_name == 'push'
-    name: Windows Export
-    runs-on: ubuntu-22.04
-    container:
-      image: barichello/godot-ci:mono-4.1.1
+  meta:
+    name: Determine version
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          lfs: true
+      - uses: actions/checkout@v3
+      # Get git version set up
       - name: Fetch all history for all tags and branches
         run: |
           git config --global --add safe.directory $GITHUB_WORKSPACE
           git fetch --prune --unshallow
-      - name: Setup
-        run: |
-          wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-          dpkg -i packages-microsoft-prod.deb
-          rm packages-microsoft-prod.deb
-          apt update
-          apt install -y dotnet-sdk-6.0
-          mkdir -v -p ~/.local/share/godot/export_templates
-          ls /root/.local/share/godot/templates/
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
@@ -51,121 +36,69 @@ jobs:
         id: gitversion
         with:
           useConfigFile: true
-      - name: Show directory
-        run: |
-          ls -la
-      - name: Stamp Version
-        run: |
-          GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          sh ./.build/stamp_version.sh
-      - name: Windows Build
-        run: |
-          mkdir -v -p build/windows
-          godot --headless -v --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: windows
-          path: build/windows
-          
-  export-linux:
-    name: Linux Export
-    runs-on: ubuntu-22.04
+    outputs:
+      semVer: ${{ steps.gitversion.outputs.semVer }}
+
+  build_project_linux:
+    name: Build Project (Linux)
+    runs-on: ubuntu-latest
+    needs: meta
     container:
-      image: barichello/godot-ci:mono-4.1.1
+      image: witchpixels/godot4-omnibuilder3d:latest-4.1.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           lfs: true
-      - name: Fetch all history for all tags and branches
-        run: |
-          git config --global --add safe.directory $GITHUB_WORKSPACE
-          git fetch --prune --unshallow
-      - name: Setup
-        run: |
-          wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-          dpkg -i packages-microsoft-prod.deb
-          rm packages-microsoft-prod.deb
-          apt update
-          apt install -y dotnet-sdk-6.0
-          mkdir -v -p ~/.local/share/godot/export_templates
-          ls /root/.local/share/godot/templates/
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0
-        with:
-          versionSpec: '5.x'
-      - name: Determine Version
-        uses: gittools/actions/gitversion/execute@v0
-        id: gitversion
-        with:
-          useConfigFile: true
-      - name: Show directory
-        run: |
-          ls -la
-      - name: Stamp Version
-        run: |
-          GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          sh ./.build/stamp_version.sh
+
+      - name: Fix paths for Github
+        run: setup_github_paths.sh
+
+      - name: Import assets
+        run: godot -v -e --quit --headless
+
+      - name: Stamp Versions
+        run: apply_version_info.sh
+
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
           godot --headless -v --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: linux
+          name: ${{ env.EXPORT_NAME }}-${{ needs.meta.outputs.semVer }}-linux
           path: build/linux
-
-  export-mac:
-    if: false #github.event_name == 'push'
-    name: Mac Export
-    runs-on: ubuntu-22.04
+  
+  build_project_windows:
+    name: Build Project (Windows Desktop)
+    runs-on: ubuntu-latest
+    needs: meta
     container:
-      image: barichello/godot-ci:mono-4.1.1
+      image: witchpixels/godot4-omnibuilder3d:latest-4.1.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           lfs: true
-      - name: Fetch all history for all tags and branches
+
+      - name: Fix paths for Github
+        run: setup_github_paths.sh
+
+      - name: Import assets
+        run: godot -v -e --quit --headless
+
+      - name: Stamp Versions
+        run: apply_version_info.sh
+
+      - name: Windows Build
         run: |
-          git config --global --add safe.directory $GITHUB_WORKSPACE
-          git fetch --prune --unshallow
-      - name: Setup
-        run: |
-          wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-          dpkg -i packages-microsoft-prod.deb
-          rm packages-microsoft-prod.deb
-          apt update
-          apt install -y dotnet-sdk-6.0
-          mkdir -v -p ~/.local/share/godot/export_templates
-          ls /root/.local/share/godot/templates/
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0
-        with:
-          versionSpec: '5.x'
-      - name: Determine Version
-        uses: gittools/actions/gitversion/execute@v0
-        id: gitversion
-        with:
-          useConfigFile: true
-      - name: Show directory
-        run: |
-          ls -la
-      - name: Stamp Version
-        run: |
-          GitVersion_FullSemVer="${{steps.gitversion.outputs.fullSemVer}}"
-          sh ./.build/stamp_version.sh
-      - name: Mac Build
-        run: |
-          cd $GITHUB_WORKSPACE
-          mkdir -v -p build/mac
-          godot --headless -v --export-release "macOS" build/mac/$EXPORT_NAME.zip
+          mkdir -v -p build/windows
+          godot --headless -v --export-release "Windows Desktop" build/windows/$EXPORT_NAME.x86_64
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: mac
-          path: build/mac
+          name: ${{ env.EXPORT_NAME }}-${{ needs.meta.outputs.semVer }}-windows
+          path: build/windows
