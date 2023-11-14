@@ -19,7 +19,7 @@ public partial class TankVisualsComponent : Node3D
     private Node3D _cannon;
     private MeshInstance3D _turret;
     private MeshInstance3D _tankHull;
-    private TankMeshShaderComponent? _tankShaderComponent;
+    private TankMeshShaderComponent _tankShaderComponent;
 
 
     public override void _Ready()

@@ -15,7 +15,7 @@ public partial class ServiceManager : Node, IServiceRegistry, IDependencyGraph
         _factoryFunctionsByType.Add(typeof(TService), () => serviceFactory()!);
     }
 
-    public IDependencyBuilder Require(string? name = null)
+    public IDependencyBuilder Require(string name = null)
     {
         return new DependencyBuilder(name ?? Guid.NewGuid().ToString(), this);
     }
@@ -39,7 +39,7 @@ public partial class ServiceManager : Node, IServiceRegistry, IDependencyGraph
     {
         private readonly ServiceManager _serviceManager;
         private readonly Dictionary<Type, Action<object>> _unmetResolutionsByType = new();
-        private Action? _readyFunc;
+        private Action _readyFunc;
 
         public DependencyBuilder(string name, ServiceManager serviceManager)
         {

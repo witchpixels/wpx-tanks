@@ -9,7 +9,7 @@ namespace Witchpixels.Tanks.Level;
 
 public interface ILevelService : IService
 {
-    Task LoadLevel(string levelName, string? stageName = null);
+    Task LoadLevel(string levelName, string stageName = null);
     Task<IReadOnlyList<string>> ListLevels();
 }
 
@@ -20,10 +20,10 @@ public partial class LevelService : Node3D, ILevelService
     [Export] private Camera3D _stageCamera;
     [Export] private string _stagesPath = "res://environment/stages/";
     [Export] private string _shippedLevelsPath = "res://levels/";
-    [Export] private Node3D? _defaultStage;
+    [Export] private Node3D _defaultStage;
 
-    private Node3D? _currentLevel;
-    private Node3D? _currentStage;
+    private Node3D _currentLevel;
+    private Node3D _currentStage;
 
     public override async void _Ready()
     {
@@ -40,7 +40,7 @@ public partial class LevelService : Node3D, ILevelService
             });
     }
     
-    public async Task LoadLevel(string levelName, string? stageName)
+    public async Task LoadLevel(string levelName, string stageName)
     {
         GetTree().Paused = true;
         await UnloadCurrentLevel();
