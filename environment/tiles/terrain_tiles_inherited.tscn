@@ -10,6 +10,7 @@ size = Vector3(2, 2, 2)
 size = Vector3(2, 2, 2)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qsjhr"]
+height = 0.503248
 radius = 0.8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s6m5l"]
@@ -34,11 +35,11 @@ surface_material_override/0 = ExtResource("2_bdv7g")
 shape = SubResource("BoxShape3D_aqcff")
 
 [node name="StaticBody3D-VehicleBlocker" type="StaticBody3D" parent="floor_pit" index="1"]
-collision_layer = 2
+collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor_pit/StaticBody3D-VehicleBlocker" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.847807, 0)
 shape = SubResource("CylinderShape3D_qsjhr")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="wall_block" index="0"]
