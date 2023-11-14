@@ -85,7 +85,7 @@ pause={
 
 [layer_names]
 
-3d_physics/layer_1="Physical"
-3d_physics/layer_2="Block Movement Only"
+3d_physics/layer_1="Terrian"
+3d_physics/layer_2="Tanks"
 avoidance/layer_1="Static"
 avoidance/layer_2="Dynamic"
