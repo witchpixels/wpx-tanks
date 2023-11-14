@@ -105,6 +105,7 @@ public partial class ObjectPool<T> : Node, IObjectPool<T>
             node.Name = $"{name} {i}";
             node.SetProcess(false);
             AddChild(node);
+            _dead.Push(node as T);
         }
     }
 }
