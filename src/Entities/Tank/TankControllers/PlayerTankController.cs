@@ -12,6 +12,7 @@ public partial class PlayerTankController : CharacterBody3D
     private TankVisualsComponent _tankVisualsComponent;
     private VelocityComponent _velocityComponent;
     private MouseWorldPositionComponent _mouseWorldPositionComponent;
+    private ObjectPoolComponent _objectPoolComponent;
     
     public override async void _Ready()
     {
@@ -24,6 +25,14 @@ public partial class PlayerTankController : CharacterBody3D
         _tankVisualsComponent = GetNode<TankVisualsComponent>("components/TankVisualComponent");
         _velocityComponent = GetNode<VelocityComponent>("components/VelocityComponent");
         _mouseWorldPositionComponent = GetNode<MouseWorldPositionComponent>("components/MouseWorldPositionComponent");
+        _objectPoolComponent = GetNode<ObjectPoolComponent>("components/ObjectPoolComponent");
+        
+        _objectPoolComponent.Setup(GetParent(), (Node3D bullet) =>
+        {
+            _logger.Info("Created a bullet");
+            bullet.Position = Position - _tankVisualsComponent.Basis.Z + Vector3.Up * 1f;
+            bullet.LookAt(_mouseWorldPositionComponent.MouseWorldPosition);
+        });
 
         // wpx2023 TODO: This should be eventually changed to reflect the player# for couch/online co-op
         _tankVisualsComponent.TankColor = Colors.Blue;
@@ -45,7 +54,24 @@ public partial class PlayerTankController : CharacterBody3D
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
+        ProcessMovement();
+        ProcessShooting();
+    }
 
+    private void ProcessShooting()
+    {
+        if (Input.IsActionJustPressed("p1_shoot"))
+        {
+            _logger.Info("Try to shoot a bullet?");
+            if (_objectPoolComponent.TrySpawnObject())
+            {
+                _logger.Info("Shooted!");
+            }
+        }
+    }
+
+    private void ProcessMovement()
+    {
         var movementVector = new Vector3(
             Input.GetAxis("p1_control_left", "p1_control_right"),
             0f,

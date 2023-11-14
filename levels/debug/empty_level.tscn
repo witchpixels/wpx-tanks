@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2odkipfrujhh"]
+[gd_scene load_steps=9 format=3 uid="uid://d2odkipfrujhh"]
 
 [ext_resource type="MeshLibrary" uid="uid://5wa0i271ujwl" path="res://environment/tiles/terrain_tiles_mesh_library.tres" id="1_xd7rc"]
 [ext_resource type="Script" path="res://src/Entities/Tank/TankControllers/PlayerTankController.cs" id="2_hhnec"]
 [ext_resource type="PackedScene" uid="uid://dfq8js0jhvwqj" path="res://entities/tank/visuals/tank_visuals.tscn" id="3_6k7or"]
 [ext_resource type="Script" path="res://src/Entities/Generic/Components/VelocityComponent.cs" id="4_x46at"]
 [ext_resource type="Script" path="res://src/Entities/Generic/Components/MouseWorldPositionComponent.cs" id="5_cbu5r"]
+[ext_resource type="Script" path="res://src/Entities/Generic/Components/ObjectPoolComponent.cs" id="6_vp0qh"]
+[ext_resource type="PackedScene" uid="uid://c4xyeq706w681" path="res://entities/projectiles/bullet.tscn" id="7_medct"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hk3rr"]
 size = Vector3(1.8, 1.8, 1.8)
@@ -39,3 +41,8 @@ Direction = Vector3(1, 0, 0)
 
 [node name="MouseWorldPositionComponent" type="Node3D" parent="PlayerControlledTank/components"]
 script = ExtResource("5_cbu5r")
+
+[node name="ObjectPoolComponent" type="Node" parent="PlayerControlledTank/components"]
+script = ExtResource("6_vp0qh")
+_maxObjectsToSpawn = 3
+_spawnObjectScene = ExtResource("7_medct")
