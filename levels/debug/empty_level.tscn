@@ -1,15 +1,23 @@
-[gd_scene load_steps=9 format=3 uid="uid://d2odkipfrujhh"]
+[gd_scene load_steps=12 format=3 uid="uid://d2odkipfrujhh"]
 
 [ext_resource type="MeshLibrary" uid="uid://5wa0i271ujwl" path="res://environment/tiles/terrain_tiles_mesh_library.tres" id="1_xd7rc"]
 [ext_resource type="Script" path="res://src/Entities/Tank/TankControllers/PlayerTankController.cs" id="2_hhnec"]
 [ext_resource type="PackedScene" uid="uid://dfq8js0jhvwqj" path="res://entities/tank/visuals/tank_visuals.tscn" id="3_6k7or"]
 [ext_resource type="Script" path="res://src/Entities/Generic/Components/VelocityComponent.cs" id="4_x46at"]
 [ext_resource type="Script" path="res://src/Entities/Generic/Components/MouseWorldPositionComponent.cs" id="5_cbu5r"]
-[ext_resource type="Script" path="res://src/Entities/Generic/Components/ObjectPoolComponent.cs" id="6_vp0qh"]
-[ext_resource type="PackedScene" uid="uid://c4xyeq706w681" path="res://entities/projectiles/bullet.tscn" id="7_medct"]
+[ext_resource type="Script" path="res://src/Entities/Generic/Components/ObjectPoolSpawnComponent.cs" id="6_p2rlg"]
+[ext_resource type="Script" path="res://src/Entities/Projectiles/BulletController.cs" id="7_evaao"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hk3rr"]
 size = Vector3(1.8, 1.8, 1.8)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wqvgs"]
+radius = 0.0856304
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_b3t0h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spjr7"]
+albedo_color = Color(1, 0.258824, 0, 1)
 
 [node name="EmptyLevel" type="Node3D"]
 
@@ -36,13 +44,32 @@ TankColor = Color(0.188235, 0.537255, 0.976471, 1)
 
 [node name="VelocityComponent" type="Node" parent="PlayerControlledTank/components"]
 script = ExtResource("4_x46at")
-Speed = 10.0
+Speed = 5.0
 Direction = Vector3(1, 0, 0)
 
 [node name="MouseWorldPositionComponent" type="Node3D" parent="PlayerControlledTank/components"]
 script = ExtResource("5_cbu5r")
 
-[node name="ObjectPoolComponent" type="Node" parent="PlayerControlledTank/components"]
-script = ExtResource("6_vp0qh")
+[node name="ObjectPoolSpawnComponent" type="Node" parent="PlayerControlledTank/components" node_paths=PackedStringArray("_objectToSpawn")]
+script = ExtResource("6_p2rlg")
 _maxObjectsToSpawn = 3
-_spawnObjectScene = ExtResource("7_medct")
+_objectToSpawn = NodePath("CharacterBody3D")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="PlayerControlledTank/components/ObjectPoolSpawnComponent"]
+script = ExtResource("7_evaao")
+
+[node name="Collider" type="CollisionShape3D" parent="PlayerControlledTank/components/ObjectPoolSpawnComponent/CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0367355, 0)
+shape = SubResource("SphereShape3D_wqvgs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerControlledTank/components/ObjectPoolSpawnComponent/CharacterBody3D"]
+transform = Transform3D(-4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, 0, 0.1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_b3t0h")
+surface_material_override/0 = SubResource("StandardMaterial3D_spjr7")
+
+[node name="components" type="Node3D" parent="PlayerControlledTank/components/ObjectPoolSpawnComponent/CharacterBody3D"]
+
+[node name="VelocityComponent" type="Node" parent="PlayerControlledTank/components/ObjectPoolSpawnComponent/CharacterBody3D/components"]
+script = ExtResource("4_x46at")
+Speed = 0.5
+Direction = Vector3(0, 0, -1)

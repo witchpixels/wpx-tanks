@@ -28,5 +28,5 @@ surface_material_override/0 = SubResource("StandardMaterial3D_g7rrq")
 
 [node name="VelocityComponent" type="Node" parent="components"]
 script = ExtResource("1_ewvab")
-Speed = 0.01
+Speed = 0.5
 Direction = Vector3(0, 0, -1)

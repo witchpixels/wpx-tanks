@@ -12,7 +12,7 @@ public partial class PlayerTankController : CharacterBody3D
     private TankVisualsComponent _tankVisualsComponent;
     private VelocityComponent _velocityComponent;
     private MouseWorldPositionComponent _mouseWorldPositionComponent;
-    private ObjectPoolComponent _objectPoolComponent;
+    private ObjectPoolSpawnComponent _objectPoolComponent;
     
     public override async void _Ready()
     {
@@ -25,9 +25,9 @@ public partial class PlayerTankController : CharacterBody3D
         _tankVisualsComponent = GetNode<TankVisualsComponent>("components/TankVisualComponent");
         _velocityComponent = GetNode<VelocityComponent>("components/VelocityComponent");
         _mouseWorldPositionComponent = GetNode<MouseWorldPositionComponent>("components/MouseWorldPositionComponent");
-        _objectPoolComponent = GetNode<ObjectPoolComponent>("components/ObjectPoolComponent");
+        _objectPoolComponent = GetNode<ObjectPoolSpawnComponent>("components/ObjectPoolSpawnComponent");
         
-        _objectPoolComponent.Setup(GetParent(), (Node3D bullet) =>
+        _objectPoolComponent.Setup(GetParent(), bullet =>
         {
             _logger.Info("Created a bullet");
             bullet.Position = Position - _tankVisualsComponent.Basis.Z + Vector3.Up * 1f;

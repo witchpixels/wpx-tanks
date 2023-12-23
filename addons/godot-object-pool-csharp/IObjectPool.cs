@@ -2,7 +2,7 @@ using Godot;
 
 namespace witchpixels.GodotObjectPool;
 
-public interface IObjectPool<T> where T : Node
+public interface IObjectPool<T>
 {
     public int Capacity { get; }
     public int AliveCount { get; }
