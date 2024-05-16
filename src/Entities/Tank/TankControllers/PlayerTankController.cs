@@ -1,4 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
 using Godot;
+using Witchpixels.Framework.Entities.Entity3D;
+using Witchpixels.Framework.Injection;
 using Witchpixels.Tanks.Entities.Generic.Components;
 using Witchpixels.Tanks.Entities.Tank.Visuals;
 using Witchpixels.Tanks.Initialization;
@@ -6,29 +9,30 @@ using Witchpixels.Tanks.Logging;
 
 namespace Witchpixels.Tanks.Entities.Tank.TankControllers;
 
-public partial class PlayerTankController : CharacterBody3D
+public partial class PlayerTankController : Character3DEntity
 {
     private ILogger _logger;
-    private TankVisualsComponent _tankVisualsComponent;
-    private VelocityComponent _velocityComponent;
-    private MouseWorldPositionComponent _mouseWorldPositionComponent;
+    
+    [RequireComponent] 
+    private TankVisualsComponent _tankVisualsComponent = null!;
+    
+    [RequireComponent] 
+    private VelocityComponent _velocityComponent = null!;
+    
+    [RequireComponent]
+    private MouseWorldPositionComponent _mouseWorldPositionComponent = null!;
     
     public override async void _Ready()
     {
+        base._Ready();
         await IOC.DependencyGraph.Require(nameof(PlayerTankController))
             .DependsOn<ILoggerFactory>(
                 l => _logger = l.CreateInstanceLogger<PlayerTankController>(
                     GetInstanceId().ToString()))
             .WaitOnReady();
-
-        _tankVisualsComponent = GetNode<TankVisualsComponent>("components/TankVisualComponent");
-        _velocityComponent = GetNode<VelocityComponent>("components/VelocityComponent");
-        _mouseWorldPositionComponent = GetNode<MouseWorldPositionComponent>("components/MouseWorldPositionComponent");
-
+        
         // wpx2023 TODO: This should be eventually changed to reflect the player# for couch/online co-op
         _tankVisualsComponent.TankColor = Colors.Blue;
-
-        base._Ready();
         _logger.Info("Player tank is ready");
     }
 
