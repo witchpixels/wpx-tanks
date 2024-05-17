@@ -49,6 +49,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+          submodules: recursive
 
       - name: Fix paths for Github
         run: setup_github_paths.sh
@@ -81,6 +82,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+          submodules: recursive
 
       - name: Fix paths for Github
         run: setup_github_paths.sh
