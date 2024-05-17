@@ -29,7 +29,7 @@ shape = SubResource("BoxShape3D_hk3rr")
 
 [node name="components" type="Node3D" parent="PlayerControlledTank"]
 
-[node name="TankVisualComponent" parent="PlayerControlledTank/components" instance=ExtResource("3_6k7or")]
+[node name="TankVisualsComponent" parent="PlayerControlledTank/components" instance=ExtResource("3_6k7or")]
 TankColor = Color(0.188235, 0.537255, 0.976471, 1)
 
 [node name="VelocityComponent" type="Node" parent="PlayerControlledTank/components"]

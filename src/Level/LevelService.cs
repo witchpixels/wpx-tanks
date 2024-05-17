@@ -2,45 +2,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
-using Witchpixels.Tanks.Initialization;
-using Witchpixels.Tanks.Logging;
+using Witchpixels.Framework.Diagnostics.Logging;
+using Witchpixels.Framework.Initialization;
+using Witchpixels.Framework.Injection;
+using ILogger = Witchpixels.Framework.Diagnostics.Logging.ILogger;
 
 namespace Witchpixels.Tanks.Level;
 
-public interface ILevelService : IService
+public interface ILevelService
 {
-    Task LoadLevel(string levelName, string? stageName = null);
+    Task LoadLevel(string levelName, string stageName = null);
     Task<IReadOnlyList<string>> ListLevels();
 }
 
-public partial class LevelService : Node3D, ILevelService
+public partial class LevelService : Node, IWaitOnReadyNode, ILevelService
 {
+    public string TargetName => Name;
+    public bool IsReady { get; set; }
+    
     private ILogger _logger;
-
+    
     [Export] private Camera3D _stageCamera;
     [Export] private string _stagesPath = "res://environment/stages/";
     [Export] private string _shippedLevelsPath = "res://levels/";
-    [Export] private Node3D? _defaultStage;
+    [Export] private Node3D _defaultStage;
 
-    private Node3D? _currentLevel;
-    private Node3D? _currentStage;
+    private Node3D _currentLevel;
+    private Node3D _currentStage;
 
-    public override async void _Ready()
+    public override void _Ready()
     {
+        _logger = GlobalServiceContainer.ResolveService<ILoggerFactory>().CreateServiceLogger<ILevelService>();
         base._Ready();
-        await IOC.WaitOnReady();
-
-        IOC.DependencyGraph.Require(Name)
-            .DependsOn<ILoggerFactory>(lf => _logger = lf.CreateServiceLogger<LevelService>())
-            .WhenReady(() =>
-            {
-                IOC.Registry.RegisterService<ILevelService>(this);
-                _logger.Info("Level service is loaded!");
-                IsReady = true;
-            });
+        IsReady = true;
+        _logger.Info("ready!");
     }
     
-    public async Task LoadLevel(string levelName, string? stageName)
+    public async Task LoadLevel(string levelName, string stageName = null)
     {
         GetTree().Paused = true;
         await UnloadCurrentLevel();
@@ -136,7 +134,4 @@ public partial class LevelService : Node3D, ILevelService
             _logger.Info("Done unloading current stage!");
         }
     }
-
-    public string ServiceName => Name;
-    public bool IsReady { get; set; }
 }

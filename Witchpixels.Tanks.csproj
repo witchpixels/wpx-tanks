@@ -2,9 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <Nullable>enable</Nullable>
+    <RootNamespace></RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="addons\Witchpixels.Framework\src\Injection\Services\" />
-  </ItemGroup>
 </Project>

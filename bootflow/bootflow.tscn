@@ -1,22 +1,3 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfhoyrojpxhl2"]
-
-[ext_resource type="Script" path="res://src/BootFlow.cs" id="1_o2qde"]
-[ext_resource type="Script" path="res://src/Level/LevelService.cs" id="2_yftka"]
-[ext_resource type="PackedScene" uid="uid://d1qxsnlka23dw" path="res://environment/stages/default_stage.tscn" id="3_l0afd"]
+[gd_scene format=3 uid="uid://bfhoyrojpxhl2"]
 
 [node name="bootflow" type="Node"]
-script = ExtResource("1_o2qde")
-
-[node name="services" type="Node" parent="."]
-
-[node name="LevelService" type="Node3D" parent="services" node_paths=PackedStringArray("_stageCamera", "_defaultStage")]
-process_mode = 1
-script = ExtResource("2_yftka")
-_stageCamera = NodePath("Camera3D")
-_defaultStage = NodePath("default_stage")
-
-[node name="default_stage" parent="services/LevelService" instance=ExtResource("3_l0afd")]
-
-[node name="Camera3D" type="Camera3D" parent="services/LevelService"]
-transform = Transform3D(1, 0, 0, 0, 0.198478, 0.980105, 0, -0.980105, 0.198478, 0, 27.7813, 7.47167)
-current = true

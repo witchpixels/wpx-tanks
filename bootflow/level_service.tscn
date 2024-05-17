@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmrxal3xrnu2g"]
+
+[ext_resource type="Script" path="res://src/Level/LevelService.cs" id="1_trs0q"]
+[ext_resource type="PackedScene" uid="uid://d1qxsnlka23dw" path="res://environment/stages/default_stage.tscn" id="2_jneao"]
+
+[node name="LevelService" type="Node"]
+process_mode = 1
+script = ExtResource("1_trs0q")
+
+[node name="default_stage" parent="." instance=ExtResource("2_jneao")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.198478, 0.980105, 0, -0.980105, 0.198478, 0, 27.7813, 7.47167)
+current = true

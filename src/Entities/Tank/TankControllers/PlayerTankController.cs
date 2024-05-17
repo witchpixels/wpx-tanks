@@ -1,17 +1,15 @@
-using System.Diagnostics.CodeAnalysis;
 using Godot;
+using Witchpixels.Framework.Diagnostics.Logging;
 using Witchpixels.Framework.Entities.Entity3D;
 using Witchpixels.Framework.Injection;
 using Witchpixels.Tanks.Entities.Generic.Components;
 using Witchpixels.Tanks.Entities.Tank.Visuals;
-using Witchpixels.Tanks.Initialization;
-using Witchpixels.Tanks.Logging;
 
 namespace Witchpixels.Tanks.Entities.Tank.TankControllers;
 
 public partial class PlayerTankController : Character3DEntity
 {
-    private ILogger _logger;
+    private ILogger _logger = null!;
     
     [RequireComponent] 
     private TankVisualsComponent _tankVisualsComponent = null!;
@@ -22,14 +20,9 @@ public partial class PlayerTankController : Character3DEntity
     [RequireComponent]
     private MouseWorldPositionComponent _mouseWorldPositionComponent = null!;
     
-    public override async void _Ready()
+    public override void _Ready()
     {
         base._Ready();
-        await IOC.DependencyGraph.Require(nameof(PlayerTankController))
-            .DependsOn<ILoggerFactory>(
-                l => _logger = l.CreateInstanceLogger<PlayerTankController>(
-                    GetInstanceId().ToString()))
-            .WaitOnReady();
         
         // wpx2023 TODO: This should be eventually changed to reflect the player# for couch/online co-op
         _tankVisualsComponent.TankColor = Colors.Blue;

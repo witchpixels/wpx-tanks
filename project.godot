@@ -17,6 +17,10 @@ boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 0)
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 
+[autoload]
+
+main="*res://src/Main.cs"
+
 [display]
 
 window/size/viewport_width=1920
