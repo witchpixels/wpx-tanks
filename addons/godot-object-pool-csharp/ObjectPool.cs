@@ -27,7 +27,7 @@ public partial class ObjectPool<T> : Node, IObjectPool<T>
 
     public T Retrieve()
     {
-        T? next;
+        T next;
 
         if (_dead.Any())
         {
